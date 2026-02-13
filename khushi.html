@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Will you be my Valentine? 💘</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #ffdde1 0%, #f9c9e7 100%);
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 12px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* floating heart balloon container */
+        .balloon-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+            overflow: hidden;
+        }
+
+        .heart-balloon {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            background: #ff4d6d;
+            transform: rotate(45deg);
+            box-shadow: 0 10px 20px rgba(255, 77, 109, 0.3);
+            border-radius: 50% 50% 0 50%;
+            animation: floatAround 14s infinite ease-in-out;
+            opacity: 0.95;
+            pointer-events: none;
+            will-change: transform, left, top;
+        }
+
+        .heart-balloon::before {
+            content: '';
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            background: #ff4d6d;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-90deg) translateX(35px) translateY(35px);
+            top: -35px;
+            left: 0;
+        }
+
+        .heart-balloon::after {
+            content: '💘';
+            position: absolute;
+            font-size: 28px;
+            transform: rotate(-45deg) translate(-10px, 28px);
+            color: white;
+            text-shadow: 2px 2px 0 #d9364e;
+            pointer-events: none;
+            z-index: 7;
+        }
+
+        /* multiple heart balloons with different delays/sizes */
+        .heart-balloon:nth-child(1) { animation-delay: 0s; left: 10%; top: 70%; width: 90px; height: 90px; }
+        .heart-balloon:nth-child(2) { animation-delay: 2.5s; left: 70%; top: 20%; width: 60px; height: 60px; }
+        .heart-balloon:nth-child(3) { animation-delay: 5s; left: 30%; top: 60%; width: 75px; height: 75px; }
+        .heart-balloon:nth-child(4) { animation-delay: 1.2s; left: 80%; top: 80%; width: 55px; height: 55px; }
+        .heart-balloon:nth-child(5) { animation-delay: 7s; left: 20%; top: 10%; width: 80px; height: 80px; }
+
+        @keyframes floatAround {
+            0% { transform: rotate(45deg) translate(0, 0); }
+            20% { transform: rotate(50deg) translate(30px, -40px); }
+            40% { transform: rotate(40deg) translate(-20px, -70px); }
+            60% { transform: rotate(55deg) translate(40px, -110px); }
+            80% { transform: rotate(35deg) translate(-30px, -70px); }
+            100% { transform: rotate(45deg) translate(0, 0); }
+        }
+
+        /* main card */
+        .card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 48px 48px 48px 48px;
+            box-shadow: 0 30px 50px rgba(233, 30, 99, 0.2),
+                        0 0 0 2px rgba(255, 255, 255, 0.8) inset;
+            width: 100%;
+            max-width: 620px;
+            padding: 32px 22px 42px;
+            text-align: center;
+            z-index: 20;
+            position: relative;
+            border: 2px solid rgba(255, 255, 255, 0.7);
+            transition: all 0.3s;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            line-height: 1.2;
+            color: #b22b4b;
+            text-shadow: 2px 2px 0 #ffe2ec;
+            margin-bottom: 20px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            word-break: break-word;
+        }
+
+        .question {
+            font-size: 2.8rem;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #ff3b5c, #c51162);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: bold;
+            padding: 0 5px;
+        }
+
+        .button-panel {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0 20px;
+            position: relative;
+            min-height: 90px;
+        }
+
+        .btn {
+            font-size: 2rem;
+            font-weight: 700;
+            padding: 18px 42px;
+            border: none;
+            border-radius: 60px;
+            background: white;
+            box-shadow: 0 8px 0 #b24b6b, 0 12px 25px rgba(255, 80, 120, 0.5);
+            color: #c2185b;
+            cursor: pointer;
+            transition: 0.1s linear;
+            letter-spacing: 1px;
+            border: 2px solid #ffc0cb;
+            touch-action: manipulation;
+            min-width: 160px;
+            transform: translateY(0);
+            z-index: 30;
+        }
+
+        .btn:active {
+            transform: translateY(6px);
+            box-shadow: 0 2px 0 #b24b6b, 0 8px 15px rgba(255, 80, 120, 0.5);
+        }
+
+        .btn-yes {
+            background: #ffeff2;
+            color: #a6124b;
+        }
+
+        .btn-no {
+            background: #ffeef0;
+            color: #751d3b;
+            position: relative;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+        }
+
+        /* hidden message area — revealed after yes */
+        .valentine-message {
+            margin-top: 40px;
+            background: rgba(255, 230, 242, 0.9);
+            border-radius: 70px 70px 40px 40px;
+            padding: 24px 16px;
+            border: 3px dashed #ff98a8;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #ad1f4b;
+            display: none;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 10px 25px #ffb6c1;
+            transition: opacity 0.5s;
+            line-height: 1.4;
+        }
+
+        .valentine-message.show-message {
+            display: block;
+            animation: pop 0.5s;
+        }
+
+        .valentine-message span {
+            display: block;
+            font-size: 2.4rem;
+            margin-top: 10px;
+            color: #c2185b;
+        }
+
+        .hotel-details {
+            font-size: 2rem;
+            background: #fff0f5;
+            padding: 16px 10px;
+            border-radius: 50px;
+            margin: 15px 0 10px;
+            border: 2px solid #ff8da1;
+            box-shadow: inset 0 2px 5px #ffb6c1;
+        }
+
+        .hotel-details i {
+            font-style: normal;
+            font-size: 2.6rem;
+            filter: drop-shadow(0 2px 2px gold);
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0.8); opacity: 0; }
+            80% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* for mobile fine-tuning */
+        @media (max-width: 550px) {
+            h1 { font-size: 1.9rem; }
+            .question { font-size: 2.4rem; }
+            .btn { font-size: 1.8rem; padding: 16px 25px; min-width: 130px; }
+            .button-panel { gap: 20px; }
+            .valentine-message { font-size: 1.5rem; }
+            .hotel-details { font-size: 1.6rem; }
+        }
+
+        @media (max-width: 400px) {
+            .btn { font-size: 1.5rem; padding: 14px 15px; min-width: 115px; }
+            .hotel-details { font-size: 1.4rem; }
+        }
+
+        /* No button escape logic (will be moved by JS) */
+        .btn-no-move {
+            transition: transform 0.15s, left 0.2s, top 0.2s;
+        }
+
+        .footer-note {
+            margin-top: 15px;
+            color: #c96b84;
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <!-- floating heart balloons (multiple) -->
+    <div class="balloon-wrapper">
+        <div class="heart-balloon"></div>
+        <div class="heart-balloon"></div>
+        <div class="heart-balloon"></div>
+        <div class="heart-balloon"></div>
+        <div class="heart-balloon"></div>
+    </div>
+
+    <div class="card" id="mainCard">
+        <h1>💗 Happy Valentine's Day my love 💗</h1>
+        <div class="question">Will you be my Valentine?</div>
+
+        <div class="button-panel" id="buttonPanel">
+            <button class="btn btn-yes" id="yesBtn">Yes 💖</button>
+            <button class="btn btn-no" id="noBtn">No 🙅</button>
+        </div>
+
+        <!-- hidden sweet message (appears after YES) -->
+        <div id="successMessage" class="valentine-message">
+            💘 I knew you'd say YES! 💘
+            <div class="hotel-details">
+                📍 Meet you today at <i>❤️</i><br>
+                <strong>Chandrika devi mandir</strong><br>
+                🕒 12:00 PM  💋
+            </div>
+            <span>❤️  Can't wait!  ❤️</span>
+        </div>
+        <div class="footer-note">(the NO button might run away 😉)</div>
+    </div>
+
+    <script>
+        (function() {
+            const yesBtn = document.getElementById('yesBtn');
+            const noBtn = document.getElementById('noBtn');
+            const messageDiv = document.getElementById('successMessage');
+            const buttonPanel = document.getElementById('buttonPanel');
+            const card = document.getElementById('mainCard');
+
+            // initial positions for no button (relative to panel)
+            let panelRect = buttonPanel.getBoundingClientRect();
+            let noBtnRect = noBtn.getBoundingClientRect();
+
+            // ensure no button is relatively positioned
+            noBtn.style.position = 'relative';
+            noBtn.style.left = '0px';
+            noBtn.style.top = '0px';
+            noBtn.style.transition = 'left 0.25s ease-out, top 0.25s ease-out';
+
+            // function to move "No" button randomly within panel, but keep fully visible inside card.
+            function moveNoButton() {
+                if (!noBtn || !buttonPanel) return;
+
+                // get current panel & button metrics
+                const panelStyle = window.getComputedStyle(buttonPanel);
+                const panelWidth = buttonPanel.clientWidth;
+                const panelHeight = buttonPanel.clientHeight;
+
+                const btnWidth = noBtn.offsetWidth;
+                const btnHeight = noBtn.offsetHeight;
+
+                // safety margin inside panel (avoid overflow)
+                const maxLeft = Math.max(0, panelWidth - btnWidth - 5);
+                const maxTop = Math.max(0, panelHeight - btnHeight - 5);
+
+                if (maxLeft <= 0 || maxTop <= 0) return; // panel too small, skip
+
+                // random position within panel bounds
+                const randomLeft = Math.floor(Math.random() * maxLeft);
+                const randomTop = Math.floor(Math.random() * maxTop);
+
+                // apply relative positioning (left/top relative to original flow)
+                noBtn.style.left = randomLeft + 'px';
+                noBtn.style.top = randomTop + 'px';
+            }
+
+            // function to reset no button to initial (roughly center default)
+            function resetNoButton() {
+                noBtn.style.left = '0px';
+                noBtn.style.top = '0px';
+            }
+
+            // track attempts to click no -> move away
+            noBtn.addEventListener('mouseover', function(e) {
+                // on desktop, move on hover (smooth)
+                moveNoButton();
+            });
+
+            // for mobile: when finger touches, we move it immediately to avoid click
+            noBtn.addEventListener('touchstart', function(e) {
+                e.preventDefault();  // prevent immediate triggering of click
+                moveNoButton();
+            });
+
+            // additionally move on click attempt (ensures it escapes even if hover didn't fire)
+            noBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                moveNoButton();  // dart away!
+            });
+
+            // YES button click: reveal message, hide buttons, stop no escaping
+            yesBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                // show message with animation
+                messageDiv.classList.add('show-message');
+
+                // gently hide buttons (keep layout but disable)
+                yesBtn.style.opacity = '0.4';
+                noBtn.style.opacity = '0.4';
+                yesBtn.style.pointerEvents = 'none';
+                noBtn.style.pointerEvents = 'none';
+
+                // also reset no button position just in case
+                resetNoButton();
+
+                // Optionally display an extra heart touch
+                // (we could also remove listener, but not necessary)
+            });
+
+            // also move no button on any attempt to click the panel (just for fun)
+            buttonPanel.addEventListener('click', function(e) {
+                if (e.target !== yesBtn && e.target !== noBtn) {
+                    // click on empty panel part -> no moves a bit
+                    moveNoButton();
+                }
+            });
+
+            // touch version for panel
+            buttonPanel.addEventListener('touchstart', function(e) {
+                if (e.target !== yesBtn && e.target !== noBtn) {
+                    moveNoButton();
+                }
+            });
+
+            // On window resize, adjust so no button stays inside
+            window.addEventListener('resize', function() {
+                // reset no to 0,0 to avoid going out of new bounds (then next move will be valid)
+                resetNoButton();
+                // optionally move a bit after resize to show life
+                setTimeout(moveNoButton, 50);
+            });
+
+            // optional: move a bit after page load (playful)
+            window.addEventListener('load', function() {
+                setTimeout(() => {
+                    moveNoButton();
+                }, 200);
+                // also move again after 3 seconds if not yet clicked
+                setTimeout(() => {
+                    if (yesBtn.style.pointerEvents !== 'none') {
+                        moveNoButton();
+                    }
+                }, 800);
+            });
+
+            // prevent no button from being clicked via actual touch/mouse (if somehow touches)
+            noBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                // already moved, but double ensure no proposal
+            }, true);
+
+        })();
+    </script>
+    <!-- Extra little hearts decoration inline (optional but not needed) -->
+</body>
+</html>
